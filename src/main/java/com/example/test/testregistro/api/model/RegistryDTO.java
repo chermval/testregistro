@@ -12,6 +12,13 @@ public class RegistryDTO {
     private int yearsOld;
     private String message;
 
-    
+    public RegistryDTO(){ }
+
+    public RegistryDTO(long id, String names, String lastNames, String birthday) {
+        this.id = id;
+        this.names = names;
+        this.lastNames = lastNames;
+        this.birthday = birthday;
+    }
     
 }

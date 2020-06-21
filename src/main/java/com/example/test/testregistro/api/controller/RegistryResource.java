@@ -27,6 +27,8 @@ public class RegistryResource {
     @ResponseStatus(HttpStatus.CREATED)
     public RegistryDTO addRegistry( @RequestBody RegistryDTO data){
 
+        //call method to add registries
+        data = services.addRegistry(data);
        
 
         return data;
@@ -37,7 +39,7 @@ public class RegistryResource {
     public List<RegistryDTO> allRegistry(){
         
         //call method to get all registries
-        List<RegistryDTO> registries = null;
+        List<RegistryDTO> registries = services.allRegistry();
     
         
          
