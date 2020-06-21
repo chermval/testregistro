@@ -1,10 +1,9 @@
 package com.example.test.testregistro;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,15 +40,23 @@ class RegistryApplicationTests {
 		registry.setLastName("PEREZ");
 		registry.setBirthday("1990-01-01");
 
+		Registry registryBirthday = new Registry();
+		registryBirthday.setId(2);
+		registryBirthday.setName("JUAN");
+		registryBirthday.setLastName("DIAZ");
+		registryBirthday.setBirthday(LocalDate.now().toString());
+
 		List<Registry> registries = new ArrayList<>();
 		registries.add(registry);
+		registries.add(registryBirthday);
 
 		when(registryRepository.save(new Registry("PABLO","PEREZ","1990-01-01") )).thenReturn( registry );
+		when(registryRepository.save(new Registry("JUAN","DIAZ",LocalDate.now().toString()) )).thenReturn( registryBirthday );
 		when(registryRepository.findAll()).thenReturn(registries);
     }
 
 	@Test
-	void testAddRegistry(){
+	void testAddRegistryNoBithday(){
 		RegistryDTO newData = new RegistryDTO();
 		newData.setNames("PABLO");
 		newData.setLastNames("PEREZ");
@@ -65,6 +72,22 @@ class RegistryApplicationTests {
 	}
 
 	@Test
+	void testAddRegistryBithday(){
+		RegistryDTO newData = new RegistryDTO();
+		newData.setNames("JUAN");
+		newData.setLastNames("DIAZ");
+		newData.setBirthday(LocalDate.now().toString());
+
+		RegistryDTO newDataExpected = new RegistryDTO();
+		newDataExpected.setId(2);
+		newDataExpected.setNames("JUAN");
+		newDataExpected.setLastNames("DIAZ");
+		newDataExpected.setBirthday(LocalDate.now().toString());
+
+		assertEquals(newDataExpected, registryService.addRegistry(newData));
+	}
+
+	@Test
 	void  testAllRegistry(){
 		RegistryDTO newDataExpected = new RegistryDTO();
 		newDataExpected.setId(1);
@@ -72,8 +95,15 @@ class RegistryApplicationTests {
 		newDataExpected.setLastNames("PEREZ");
 		newDataExpected.setBirthday("1990-01-01");
 
+		RegistryDTO newDataExpectedBirthday = new RegistryDTO();
+		newDataExpectedBirthday.setId(2);
+		newDataExpectedBirthday.setNames("JUAN");
+		newDataExpectedBirthday.setLastNames("DIAZ");
+		newDataExpectedBirthday.setBirthday(LocalDate.now().toString());
+
 		List<RegistryDTO> newDataExpectedList = new ArrayList<>();
 		newDataExpectedList.add(newDataExpected);
+		newDataExpectedList.add(newDataExpectedBirthday);
 
 		assertEquals(newDataExpectedList, registryService.allRegistry());
 	}

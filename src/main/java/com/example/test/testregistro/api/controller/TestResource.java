@@ -1,6 +1,5 @@
 package com.example.test.testregistro.api.controller;
 
-import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.web.bind.annotation.*;
 
